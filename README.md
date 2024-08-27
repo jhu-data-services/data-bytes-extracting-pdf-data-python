@@ -1,5 +1,5 @@
-# Workshop Name
-[description]
+# Extracting Data from PDFs with Python
+Ever found yourself with a collection of information-rich PDFs that you wished you could easily combine into an analysis-ready dataset? Johns Hopkins Data Services in this Data Bytes session as we provide an overview of the kinds of data that may be present in PDFs, and demo several Python packages that can be used to extract and combine it.
 
 
 ## JHU Data Services   
@@ -13,7 +13,7 @@ As of March 2020, Data Services workshops are being held virtually on Zoom. [See
 
 
 ## Pre-Class Instructions
-Before the class, follow the [installation instructions to download all required software and tools for this workshop](link-to-github-installation-repo).
+Before the class, follow our [Python workshop series installation instructions](https://github.com/jhu-data-services/python-installation-instructions).
 
 
 ## Description of Files
