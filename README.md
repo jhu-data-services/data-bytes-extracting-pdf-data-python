@@ -13,21 +13,24 @@ As of March 2020, Data Services workshops are being held virtually on Zoom. [See
 
 
 ## Pre-Class Instructions
-Before the class, follow our [Python workshop series installation instructions](https://github.com/jhu-data-services/python-installation-instructions).
 
+This workshop is intended to be a live demo and not a hands-on workshop. 
+
+If you would like to follow along on your own, you can follow our [Python workshop series installation instructions](https://github.com/jhu-data-services/python-installation-instructions) to install Python and install the following dependencies:
+- `pandas`
+- `pdfplumber`
+- `pypdf`
+- `PyMuPDF`
 
 ## Description of Files
-- Data: This folder contains raw data files to be used during hands-on activities in the workshop
-- In-ClassScripts: This folder contains code files you will need for the workshop:
-    - [file1]
-    - [file2]
-    - [file3]
-- PresentationMaterials: This folder contains PowerPoint slides and other presentation materials used in the workshop
-- Resources: This folder contains cheatsheets to assist you during the workshop and links to external sources for you to continue your learning
+- Data: This folder contains the PDFs used in the demo
+- In-ClassScripts: This folder contains a Jupyter notebook containing the code written in the demo
+    - Extracting Data from PDFs with Python.ipynb
+- PresentationMaterials: This folder contains a PDF of the slides and the Quarto files used to generate them.
 
 
 ## Post-Class Survey
-If you have taken the live webinar for this class, please take this survey: [link name](url)
+If you have taken the live webinar for this class, please take this survey: [bit.ly/survey-data-bytes](bit.ly/survey-data-bytes)
 
 
 ## License and Terms of Use
@@ -40,4 +43,4 @@ The images, external resources, and cheatsheets linked in this repository may ha
 
 ## Citation
 Please cite this material as:    
-Johns Hopkins University Data Services. [Date of workshop]. [Workshop title]. [URL] 
+Johns Hopkins University Data Services. October 7, 2024. Extracting Data from PDFs with Python. [https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python] 

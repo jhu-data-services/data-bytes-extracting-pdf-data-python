@@ -1,0 +1,19 @@
+/*-- scss:defaults --*/
+$body-color: #383D3D;
+$link-color: #51A3A3;
+
+/*-- scss:rules --*/
+
+#title-slide {
+  text-align: left;
+
+  .quarto-title-authors {
+    justify-content: left;
+  
+    .quarto-title-author { // optional, test it for yourself
+      padding-left: 0;
+      padding-right: 0;
+      width: 100%;
+    }
+  }
+}

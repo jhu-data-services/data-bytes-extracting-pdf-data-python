@@ -1,0 +1,416 @@
+---
+title: "Extracting Data from PDFs with Python"
+author:
+  - name: Lubov McKone
+    email: lmckone1@jh.edu
+    role: Data Management Specialist
+    degrees: MSLIS
+    affiliations:
+      - name: Data Services
+format:
+  revealjs:
+    theme: [serif, presentation.scss]
+    incremental: true 
+    footer: "Data Bytes - Fall 2024"
+title-slide-attributes:
+  data-background-image: /images/bg_3.png
+  data-background-size: contain
+  data-background-opacity: "0.4"
+execute:
+  echo: true
+  eval: false
+jupyter: python3
+---
+
+## 
+
+![](/images/db-fall.png)
+
+## A brief history of PDFs 📃
+
+-   **P**ortable **D**ocument **F**ormat - released by Adobe in 1993
+-   Developed with the idea that every document should be readable and **printable** on **any device** while preserving the fidelity of the content
+
+::: notes
+-   I promise I won't bore you with too long about the history of PDFs, because I know that's not why you signed up for this training​
+
+-   We're going to be essentially taking apart PDFs in the demo today, so it will be useful to have some baseline context about what PDFs are and why they're built that why​
+
+-   (Read bullet 1)​
+
+-   (Read bullet 2)​
+
+-   There are two things to note here:​
+
+-   First, since PDFs were developed to preserve and protect the content and layout of documents, it can sometimes be challenging to edit or extract information from them.​
+
+-   Second, PDFs were designed for printing -- they were created at a time when digital documents were designed in ways that made them easy to translate to the physical page. This is not how we expect digital text to behave now, so it's important to keep in mind that any data we find in PDFs is designed to exist on a page, and this can present some challenge when we try to transform it into data.
+:::
+
+## A brief history of PDFs 📃
+
+-   Grew in popularity from the 1990s to 2000s, became an **open format** in 2008
+-   Multiple standards have developed under the PDF format, and not all PDFs are alike when it comes to working with them
+
+::: notes
+-   (Read bullet 1)​
+
+-   PDF is now an open format maintained by the ISO (International Organization for Standardization) and is no longer owned by Adobe. This means it can be opened in more software than just Adobe. ​
+
+-   (Read bullet 2)​
+
+-   Different types of PDFs require different ways of working with them, particularly when searching or extracting text, like we'll be doing today.
+:::
+
+## 3 types of PDFs
+
+**"True" or digitally created PDFs**
+
+These are PDFs created digitally using software such as Microsoft Word. They consist of searchable text and images.
+
+![](images/true_pdf.png){fig-align="center"}
+
+## 3 types of PDFs
+
+**"Image-only" or scanned PDFs**
+
+These are PDFs that are created by scanning or photographing hard copy documents. They contain only the scanned/photographed images of pages and are not automatically searchable.
+
+![](images/scanned_pdf.png){fig-align="center"}
+
+::: notes
+-   This is typically what we'll see with historical research or primary source-based research
+:::
+
+## 3 types of PDFs
+
+**Searchable or OCRed PDFs**
+
+These are the result of applying Optical Character Recognition (OCR) to image-only PDFs. The resulting PDF has two layers -- one with the page image, and the other containing the recognized text.
+
+![](images/ocr_pdf.png){fig-align="center"}
+
+::: notes
+-   (Read slide)
+
+-   We're not going to talk a lot about OCR today because it could be it's own training.
+
+-   OCR is a form of computer vision ("AI") that can extract digital text from images
+
+-   There are many products, tools, and software that perform OCR to varying levels of accuracy
+
+-   When it comes to PDFs, some OCR products can detect the proper order of text in columns, boxes, or other layouts, while some cannot.
+
+-   When you're working with an OCRed PDF, you're limited not only by the OCR output, but also by how well the tool you're working with is able to interpret that output... more on that later.
+:::
+
+## PDFs as data
+
+::::: columns
+::: {.column width="50%"}
+What can be extracted from PDFs?
+
+-   Text
+-   Images
+-   Structured data (tables)
+:::
+
+::: {.column width="50%"}
+![](images/pdf_data.PNG){fig-align="center"}
+:::
+:::::
+
+::: notes
+-   Open up the 1973 Imperial Oil report, describe where the reports come from and what they are, why someone might use them for research
+-   Ask what type of data could be extracted from it in the chat
+:::
+
+## A word on libraries 📚
+
+There are several libraries for working with PDFs in Python that do many of the same things. During this training we'll be comparing their performance for different tasks:
+
+-   `pdfplumber`
+
+-   `pyPDF`
+
+-   `PyMuPDF`
+
+## PDFs as data 📊
+
+-   To Python, every PDF is made up of two components: the document metadata and a set of pages.
+
+-   Each page consists of objects that can be classified as:
+
+    -   characters
+
+    -   lines
+
+    -   rectangles
+
+    -   curves
+
+    -   images
+
+    -   and metadata about each of these objects
+
+::: notes
+-   Read slide
+
+-   Let's take a took at what I mean using our first library, `pdfplumber`
+
+-   Open up a new jupyter notebook
+
+-   `import pdfplumber`
+
+    `with pdfplumber.open("../Data/Imperial Oil Annual Report 1973.pdf") as pdfplumber_1973:`
+
+    `print(pdfplumber_1973.metadata) print(pdfplumber_1973.pages)`
+
+-   If we call the metadata attribute and the pages attribute, we can see some information about how this PDF was created and we can see that there are 15 pages, which Python stores as a list of Page objects. The Page object is defined by the library that is reading the pdf.
+
+-   We see that the document is stored as a list of pages. What happens if we look at the first one?
+
+-   `print(pdfplumber_1973.pages[0])`
+
+-   Not very informative! This just shows us that the page is stored in a Page object, defined by pdfplumber. These page objects have a number of methods and attributes.
+
+-   `print(pdfplumber_1973.pages[0].page_number)`\
+    `print(pdfplumber_1973.pages[0].width)`\
+    `print(pdfplumber_1973.pages[0].height)`
+
+-   `with pdfplumber.open("../Data/Imperial Oil Annual Report 1973.pdf") as pdfplumber_1973: print(pdfplumber_1973.pages[0].objects)`
+
+-   Go over the objects, particularly the characters, and discuss the visual way PDFs encode information
+
+-   this is `pdfplumber` 's "raw" interpretation of what is on the page. While we could technically interpret and work with this raw json, all of the packages we're going to look at today have helpful functions (methods) that extract what you want for you!
+:::
+
+## Extracting text from PDFs 🔡
+
+Goal: Extract the text from the 1973 Imperial Oil Report
+
+Some questions:
+
+-   Will the text be extracted left to right across the page, or by column?
+
+-   How can we combine the text from all of the pages?
+
+::: notes
+-   Let's continue working with `pdfplumber` to extract our text. One of those "helper functions" I mentioned is `extract_text()`
+
+-   `with pdfplumber.open("../Data/Imperial Oil Annual Report 1973.pdf") as pdfplumber_1973: print(pdfplumber_1973.pages[1].extract_text())`
+
+-   It doesn't look great!
+
+-   A couple of things to note:
+
+    -   This pdf is from 1973. It is over 50 years old. It has been OCRed
+
+    -   `pdfplumber` is looking line by line at the pdf, and is not interpreting any info that may be encoded in the OCR about the sequencing of the text
+
+    -   Going back to what I said earlier, your extracting capabilities will be limited by both the OCR and the package you are working with. So let's see if we can't get a better result with another package.
+
+-   `import pymupdfpymupdf_1973 = pymupdf.open("../Data/Imperial Oil Annual Report 1973.pdf")print(pymupdf_1973[1].get_text())`
+
+-   This package is recognizing the layout of the document! We still have some weird spacing issues, so let's try one more library.
+
+-   `from pypdf import PdfReaderpypdf_1973 = PdfReader("../Data/Imperial Oil Annual Report 1973.pdf")print(pypdf_1973.pages[1].extract_text())`
+
+-   This is our best result yet. It's important to look at your results and compare them. But we notice that we still have some weird linebreaks. These exist because as I mentioned, PDFs are designed to exist the same way on every page
+
+-   `print(pypdf_1973.pages[1].extract_text().replace("`\n`", ""))`
+
+-   Finally, we've just extracted the first page of text. We can use a for loop too extract text from the whole document.
+
+-   `document_text = ''`
+
+    `for page in pypdf_1973.pages: page_text = page.extract_text().replace("`\n`", "") document_text += page_text print(document_text)`
+:::
+
+## Code for extracting text
+
+```{python}
+# Extracting text with pdfplumber
+with pdfplumber.open("../Data/Imperial Oil Annual Report 1973.pdf") as pdfplumber_1973: 
+  print(pdfplumber_1973.pages[1].extract_text())
+
+# Extracting text with pymupdf
+import pymupdf
+pymupdf_1973 = pymupdf.open("../Data/Imperial Oil Annual Report 1973.pdf")
+print(pymupdf_1973[1].get_text())
+
+# Extracting text with pypdf
+from pypdf import PdfReader
+pypdf_1973 = PdfReader("../Data/Imperial Oil Annual Report 1973.pdf")
+document_text = ''
+# loop over the pages 
+for page in pypdf_1973.pages: 
+  # remove newlines from extracting text 
+  page_text = page.extract_text().replace("\n", "") 
+  document_text += page_text 
+print(document_text)
+```
+
+## Extracting text from PDFs - summary
+
+-   Libraries for text extraction:
+
+    -   `pdfplumber` - has nice filtering features and great documentation, but processes text line-by-line so not great for multi-column spreads.
+
+    -   `pyPDF` - great library for high-quality basic text extraction.
+
+    -   `pyMuPDF` - similar to pyPDF with varying accuracy, so good to check both.
+
+## Extracting text from PDFs - tips 👉
+
+-   Check your results! Compare ouputs across libraries.
+
+-   Make sure your output reflects the layout of the text, and doesn't just scan left to right.
+
+-   PDFs often contain hidden newlines to preserve the layout of the text, so keep an eye out for strange line breaks and remove `\n` characters if necessary.
+
+-   Loop over pages to combine document text.
+
+## Extracting images from PDFs 🖼️
+
+-   Because our old document was OCRed, we were able to extract at least some text from it
+
+-   However, OCR doesn't extract images - if you remember, for OCRed documents, the entire page actually has two layers, the page image and the OCRed text - so if we tried to extract images, we'd just get the full page images.
+
+-   For image detection, we're limited to working with digital PDFs - such as the 2023 Imperial Oil Annual Report
+
+::: notes
+-   Open up Imperial Oil 2023 report
+
+-   `pypdf_2023 = PdfReader("../../Data/Imperial Oil Annual Report 2023.pdf")`
+
+    `for page in pypdf_2023.pages:   for count, image_file_object in enumerate(page.images):      with open(str(count) + image_file_object.name, "wb") as fp:         fp.write(image_file_object.data)      display(Image(filename = str(count) + image_file_object.name, width=10))`
+:::
+
+## Code for extracting images
+
+```{python}
+# read in the document with pypdf
+pypdf_2023 = PdfReader("../../Data/Imperial Oil Annual Report 2023.pdf")
+
+for page in pypdf_2023.pages:
+  # loop over the images 
+  for count, image_file_object in enumerate(page.images):
+    # write each image to a .jpg file
+    with open(str(count) + image_file_object.name, "wb") as fp:
+      fp.write(image_file_object.data)
+```
+
+## Extracting tables from PDFs 📅
+
+Some of these libraries can actually detect and extract tables from PDFs! This feature also performs best on digital PDFs, and doesn't always detect things that we as humans know to be tables.
+
+The best implementaton by far is in `PyMuPDF` - let's give it a try on a [Baltimore Police Department Weekly Incident Report](https://data.baltimorecity.gov/documents/aa87fd9ed6124db2b1c2aed8a5bf21cd/about) from [Open Baltimore](https://data.baltimorecity.gov/).
+
+::: notes
+-   Open up the report in a browser window
+
+-   Talk about why a researcher might want this data in tabular format rather than pdfs
+
+    -   Easier to analyze
+
+    -   The data is by week - by digitizing it, we can combine it and analyze longer periods
+
+-   Show that copying and pasting the report into Excel doesn't go well
+
+-   Scroll through the report and say that we are just going to focus on the first page because we are concerned with citywide statistics
+
+-   And the first table on the first page because we're not interested in the domestic-related crimes specifically
+
+-   `police_report = pymupdf.open("../Data/police_report_week12.pdf")`\
+    `page = police_report[0]`\
+    `tabs = page.find_tables()`\
+    `print(tabs)`
+
+    `df = tabs[0].to_pandas()`
+
+    `df`
+
+-   As we can see, the table reader wasn't able to detect the header fields. Let's see if there's anything else on the page we can use to create the header variables. We can use good-old text extraction to start.
+
+-   `page_text = page.get_text()`\
+    `print(page_text)`
+
+-   Everything is a bit out of order... but we know a couple things about how our document is structured that can help us set up the headers
+
+-   The variable part here across documents will be the actual dates, so lets extract those and start building our header from there.
+
+-   `table_dates = page_text[page_text.find("YEAR TO DATE")+len("YEAR TO DATE"):page_text.find("%")].split()print(table_dates)`
+
+-   Go to the document and show that the header is crime type, two 7-day counts, the 7-day percent change, two 28-day counts, the 28-day percent change, two YTD counts, the YTD percent change.
+
+-   `header_list = ["Crime type", table_dates[0] + "-" + table_dates[1], table_dates[2] + "-" + table_dates[3], "7-day percent change", table_dates[4] + "-" + table_dates[5], table_dates[6] + "-" + table_dates[7], "28-day percent change", table_dates[8] + "-" + table_dates[9], table_dates[10] + "-" + table_dates[11], "YTD percent change"]`
+
+    `print(header_list)`
+
+-   Now all we have to do is assign the header to our table
+
+-   `df.columns = header_list`
+
+    `df`
+:::
+
+## Code for extracting tables
+
+```{python}
+police_report = pymupdf.open("../Data/police_report_week12.pdf")
+page = police_report[0]
+tabs = page.find_tables()
+df = tabs[0].to_pandas()
+
+page_text = page.get_text()
+
+table_dates = page_text[page_text.find("YEAR TO DATE")+len("YEAR TO DATE"):page_text.find("%")].split()
+
+header_list = ["Crime type", table_dates[0] + "-" + table_dates[1],
+table_dates[2] + "-" + table_dates[3],
+"7-day percent change", table_dates[4] + "-" + table_dates[5],
+table_dates[6] + "-" + table_dates[7], "28-day percent change",
+table_dates[8] + "-" + table_dates[9], table_dates[10] + "-" + table_dates[11],
+"YTD percent change"]
+
+df.columns = header_list 
+```
+
+## Extracting tables - tips 👉
+
+-   Check your results, including whether the header is captured
+
+-   Don't forget about text extraction!
+
+## Summary
+
+-   `pypdf` :
+
+    -   best OCR interpreter for extracting text from older documents
+
+    -   best for extracting images
+
+-   `pymupdf` :
+
+    -   best for tables
+
+-   `pdfplumber` :
+
+    -   good package for beginners
+
+## Docs and resources
+
+-   [pyPDF documentation](https://pypdf.readthedocs.io/en/stable/)
+
+-   [PyMuPDF documentation](https://pymupdf.readthedocs.io/en/latest/)
+
+-   [pdfplumber documentation](https://github.com/jsvine/pdfplumber)
+
+-   [Extracting Tables with PyMuPDF](https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/table-analysis)
+
+## Thanks!
+
+Please give us your feedback on this session at [bit.ly/survey-data-bytes](https://bit.ly/survey-data-bytes) and join us at the next Data Bytes!
+
+![](images/db-fall.png){fig-align="center"}
