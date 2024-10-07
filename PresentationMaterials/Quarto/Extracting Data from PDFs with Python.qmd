@@ -26,6 +26,44 @@ jupyter: python3
 
 ![](/images/db-fall.png)
 
+::: notes
+-   Press record - the recording will be shared after the training.
+
+-   dataservices\@jhu.edu
+:::
+
+## We will cover 
+
+-   How data is stored in different types of PDFs
+
+-   What kinds of data may be extracted from PDFs
+
+-   A demo on the capabilities and limitations different Python libraries that can extract data from PDFs
+
+    -   Materials are at <https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python>
+
+::: notes
+-   Because this workshop is only an hour, this won't be a hands on session
+
+-   All of the code and materials are at <https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python> if you would like to follow along
+:::
+
+## We won't cover
+
+-   Python basics
+
+-   Processing or reshaping data in Python
+
+-   Text analysis
+
+::: notes
+-   This training assumes knowledge of basic programming concepts in Python or another language. We offer a whole series of workshops on beginner programming if you are interested.
+
+-   We won’t be covering much data transformation or restructuring – data “tidying” – we will be focused on getting digital material out of PDFs for further processing and analysis. I am teaching this topic on Friday.
+
+-   The result of a lot of our work today will be unstructured text that is ripe for further analysis – but we won’t be doing that analysis during this session. Any type of tokenization (i.e. breaking things up by sentence), pattern-matching, etc. will not be covered in depth in this training. 
+:::
+
 ## A brief history of PDFs 📃
 
 -   **P**ortable **D**ocument **F**ormat - released by Adobe in 1993
@@ -121,6 +159,7 @@ What can be extracted from PDFs?
 :::::
 
 ::: notes
+-   Direct students to <https://www.industrydocuments.ucsf.edu/docs/#id=hfhl0228> and note that the report is in the Data folder of the Github link that was shared.
 -   Open up the 1973 Imperial Oil report, describe where the reports come from and what they are, why someone might use them for research
 -   Ask what type of data could be extracted from it in the chat
 :::
@@ -409,8 +448,12 @@ df.columns = header_list
 
 -   [Extracting Tables with PyMuPDF](https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/table-analysis)
 
-## Thanks!
+## Thanks! Questions?
 
 Please give us your feedback on this session at [bit.ly/survey-data-bytes](https://bit.ly/survey-data-bytes) and join us at the next Data Bytes!
 
 ![](images/db-fall.png){fig-align="center"}
+
+::: notes
+[bit.ly/survey-data-bytes](https://bit.ly/survey-data-bytes)
+:::

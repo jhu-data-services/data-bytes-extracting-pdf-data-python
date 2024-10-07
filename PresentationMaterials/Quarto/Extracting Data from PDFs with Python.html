@@ -411,7 +411,75 @@ Lubov McKone
 <section id="section" class="slide level2">
 <h2></h2>
 
-<img data-src=".\images/db-fall.png" class="r-stretch"></section>
+<img data-src=".\images/db-fall.png" class="r-stretch"><aside class="notes">
+<ul>
+<li><p>Press record - the recording will be shared after the training.</p></li>
+<li><p>dataservices@jhu.edu</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="we-will-cover" class="slide level2">
+<h2>We will cover</h2>
+<ul>
+<li class="fragment"><p>How data is stored in different types of PDFs</p></li>
+<li class="fragment"><p>What kinds of data may be extracted from PDFs</p></li>
+<li class="fragment"><p>A demo on the capabilities and limitations different Python libraries that can extract data from PDFs</p>
+<ul>
+<li class="fragment">Materials are at <a href="https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python" class="uri">https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python</a></li>
+</ul></li>
+</ul>
+<aside class="notes">
+<ul>
+<li><p>Because this workshop is only an hour, this won’t be a hands on session</p></li>
+<li><p>All of the code and materials are at <a href="https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python" class="uri">https://github.com/jhu-data-services/data-bytes-extracting-pdf-data-python</a> if you would like to follow along</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="we-wont-cover" class="slide level2">
+<h2>We won’t cover</h2>
+<ul>
+<li class="fragment"><p>Python basics</p></li>
+<li class="fragment"><p>Processing or reshaping data in Python</p></li>
+<li class="fragment"><p>Text analysis</p></li>
+</ul>
+<aside class="notes">
+<ul>
+<li><p>This training assumes knowledge of basic programming concepts in Python or another language. We offer a whole series of workshops on beginner programming if you are interested.</p></li>
+<li><p>We won’t be covering much data transformation or restructuring – data “tidying” – we will be focused on getting digital material out of PDFs for further processing and analysis.&nbsp;I am teaching this topic on Friday.</p></li>
+<li><p>The result of a lot of our work today will be unstructured text that is ripe for further analysis – but we won’t be doing that analysis during this session. Any type of tokenization (i.e.&nbsp;breaking things up by sentence), pattern-matching, etc. will not be covered in depth in this training.&nbsp;</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="a-brief-history-of-pdfs" class="slide level2">
 <h2>A brief history of PDFs 📃</h2>
 <ul>
@@ -537,6 +605,7 @@ Lubov McKone
 </div></div>
 <aside class="notes">
 <ul>
+<li>Direct students to <a href="https://www.industrydocuments.ucsf.edu/docs/#id=hfhl0228" class="uri">https://www.industrydocuments.ucsf.edu/docs/#id=hfhl0228</a> and note that the report is in the Data folder of the Github link that was shared.</li>
 <li>Open up the 1973 Imperial Oil report, describe where the reports come from and what they are, why someone might use them for research</li>
 <li>Ask what type of data could be extracted from it in the chat</li>
 </ul>
@@ -648,7 +717,7 @@ Lubov McKone
 </section>
 <section id="code-for-extracting-text" class="slide level2">
 <h2>Code for extracting text</h2>
-<div id="69bda0f4" class="cell" data-execution_count="1">
+<div id="95d81056" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="co"># Extracting text with pdfplumber</span></span>
 <span id="cb1-2"><a href=""></a><span class="cf">with</span> pdfplumber.<span class="bu">open</span>(<span class="st">"../Data/Imperial Oil Annual Report 1973.pdf"</span>) <span class="im">as</span> pdfplumber_1973: </span>
 <span id="cb1-3"><a href=""></a>  <span class="bu">print</span>(pdfplumber_1973.pages[<span class="dv">1</span>].extract_text())</span>
@@ -717,7 +786,7 @@ Lubov McKone
 </section>
 <section id="code-for-extracting-images" class="slide level2">
 <h2>Code for extracting images</h2>
-<div id="edea97b1" class="cell" data-execution_count="2">
+<div id="577aa8b4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># read in the document with pypdf</span></span>
 <span id="cb2-2"><a href=""></a>pypdf_2023 <span class="op">=</span> PdfReader(<span class="st">"../../Data/Imperial Oil Annual Report 2023.pdf"</span>)</span>
 <span id="cb2-3"><a href=""></a></span>
@@ -777,7 +846,7 @@ Lubov McKone
 </section>
 <section id="code-for-extracting-tables" class="slide level2">
 <h2>Code for extracting tables</h2>
-<div id="9b2b249a" class="cell" data-execution_count="3">
+<div id="45dc31a4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>police_report <span class="op">=</span> pymupdf.<span class="bu">open</span>(<span class="st">"../Data/police_report_week12.pdf"</span>)</span>
 <span id="cb3-2"><a href=""></a>page <span class="op">=</span> police_report[<span class="dv">0</span>]</span>
 <span id="cb3-3"><a href=""></a>tabs <span class="op">=</span> page.find_tables()</span>
@@ -831,11 +900,24 @@ Lubov McKone
 <li class="fragment"><p><a href="https://github.com/pymupdf/PyMuPDF-Utilities/tree/master/table-analysis">Extracting Tables with PyMuPDF</a></p></li>
 </ul>
 </section>
-<section id="thanks" class="slide level2">
-<h2>Thanks!</h2>
+<section id="thanks-questions" class="slide level2">
+<h2>Thanks! Questions?</h2>
 <p>Please give us your feedback on this session at <a href="https://bit.ly/survey-data-bytes">bit.ly/survey-data-bytes</a> and join us at the next Data Bytes!</p>
 
-<img data-src="images/db-fall.png" class="quarto-figure quarto-figure-center r-stretch"><div class="quarto-auto-generated-content">
+<img data-src="images/db-fall.png" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
+<p><a href="https://bit.ly/survey-data-bytes">bit.ly/survey-data-bytes</a></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 <p>Data Bytes - Fall 2024</p>
 </div>
