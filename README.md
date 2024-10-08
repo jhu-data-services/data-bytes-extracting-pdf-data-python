@@ -30,7 +30,7 @@ If you would like to follow along on your own, you can follow our [Python worksh
 
 
 ## Post-Class Survey
-If you have taken the live webinar for this class, please take this survey: [bit.ly/survey-data-bytes](bit.ly/survey-data-bytes)
+If you have taken the live webinar for this class, please take this survey: [bit.ly/survey-data-bytes](https://bit.ly/survey-data-bytes)
 
 
 ## License and Terms of Use
